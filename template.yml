@@ -119,8 +119,6 @@ Resources:
       AttributeDefinitions:
         - AttributeName: "name"
           AttributeType: "S"
-        - AttributeName: "value"
-          AttributeType: "N"
       KeySchema:
         - AttributeName: "name"
           KeyType: "HASH"
