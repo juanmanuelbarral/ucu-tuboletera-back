@@ -9,15 +9,22 @@ const TEST_KNOW_MORE = 'TestKnowMore';
 const PAGE_VISIT = 'PageVisit';
 const KNOW_MORE = 'KnowMore';
 
-addToItem = (item) => {
-  if (item.value) {
-    return {
-      name: item.name,
-      value: item.value + 1
+const addToItem = (item, name) => {
+  if (item) {
+    if (item.value) {
+      return {
+        name: item.name,
+        value: item.value + 1
+      }
+    } else {
+      return {
+        name: item.name,
+        value: 1
+      }
     }
   } else {
     return {
-      name: item.name,
+      name: name,
       value: 1
     }
   }
@@ -26,8 +33,9 @@ addToItem = (item) => {
 exports.testPageVisit = async (event) => {
   console.log('test page visit');
 
-  const item = await getItem(TEST_PAGE_VISIT);
-  const newItem = addToItem(item);
+  const name = TEST_PAGE_VISIT;
+  const item = await getItem(name);
+  const newItem = addToItem(item, name);
   const savedItem = await saveItem(newItem);
 
   return {
@@ -42,8 +50,9 @@ exports.testPageVisit = async (event) => {
 exports.testKnowMore = async (event) => {
   console.log('test know more');
 
-  const item = await getItem(TEST_KNOW_MORE);
-  const newItem = addToItem(item);
+  const name = TEST_KNOW_MORE;
+  const item = await getItem(name);
+  const newItem = addToItem(item, name);
   const savedItem = await saveItem(newItem);
 
   return {
@@ -58,8 +67,9 @@ exports.testKnowMore = async (event) => {
 exports.pageVisit = async (event) => {
   console.log('page visit');
 
-  const item = await getItem(PAGE_VISIT);
-  const newItem = addToItem(item);
+  const name = PAGE_VISIT;
+  const item = await getItem(name);
+  const newItem = addToItem(item, name);
   const savedItem = await saveItem(newItem);
 
   return {
@@ -74,8 +84,9 @@ exports.pageVisit = async (event) => {
 exports.knowMore = async (event) => {
   console.log('know more');
 
-  const item = await getItem(KNOW_MORE);
-  const newItem = addToItem(item);
+  const name = KNOW_MORE;
+  const item = await getItem(name);
+  const newItem = addToItem(item, name);
   const savedItem = await saveItem(newItem);
 
   return {
@@ -95,28 +106,33 @@ exports.getTestData = async (event) => {
     const tkmItem = await getItem(TEST_KNOW_MORE);
 
     if (tpvItem.value && tkmItem.value) {
+
+      const bodyItem = {
+        testPageVisit: tpvItem.value,
+        testKnowMore: tkmItem.value
+      }
+
       return {
         statusCode: 200,
         headers: {
           'Access-Control-Allow-Origin': '*'
         },
-        body: {
-          testPageVisit: tpvItem.value,
-          testKnowMore: tkmItem.value
-        }
+        body: JSON.stringify(bodyItem),
       }
     }
   } catch (e) {
     console.log(e);
+    const bodyItem = {
+      testPageVisit: -1,
+      testKnowMore: -1
+    }
+
     return {
       statusCode: 200,
       headers: {
         'Access-Control-Allow-Origin': '*'
       },
-      body: {
-        testPageVisit: -1,
-        testKnowMore: -1
-      }
+      body: JSON.stringify(bodyItem),
     }
   }
 }
@@ -129,28 +145,33 @@ exports.getData = async (event) => {
     const kmItem = await getItem(KNOW_MORE);
 
     if (pvItem.value && kmItem.value) {
+
+      const bodyItem = {
+        pageVisit: pvItem.value,
+        knowMore: kmItem.value
+      }
+
       return {
         statusCode: 200,
         headers: {
           'Access-Control-Allow-Origin': '*'
         },
-        body: {
-          pageVisit: pvItem.value,
-          knowMore: kmItem.value
-        }
+        body: JSON.stringify(bodyItem),
       }
     }
   } catch (e) {
     console.log(e);
+    const bodyItem = {
+      pageVisit: -1,
+      knowMore: -1
+    }
+
     return {
       statusCode: 200,
       headers: {
         'Access-Control-Allow-Origin': '*'
       },
-      body: {
-        pageVisit: -1,
-        knowMore: -1
-      }
+      body: JSON.stringify(bodyItem),
     }
   }
 }
