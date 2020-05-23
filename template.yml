@@ -16,7 +16,7 @@ Resources:
     Properties:
       Handler: handler.testPageVisit
       Runtime: nodejs12.x
-      CodeUri: ./hello
+      CodeUri: ./tuBoletera
       Policies:
         - DynamoDBCrudPolicy:
             TableName: TuBoleteraTable
@@ -33,7 +33,7 @@ Resources:
     Properties:
       Handler: handler.pageVisit
       Runtime: nodejs12.x
-      CodeUri: ./hello
+      CodeUri: ./tuBoletera
       Policies:
         - DynamoDBCrudPolicy:
             TableName: TuBoleteraTable
@@ -50,7 +50,7 @@ Resources:
     Properties:
       Handler: handler.testKnowMore
       Runtime: nodejs12.x
-      CodeUri: ./hello
+      CodeUri: ./tuBoletera
       Policies:
         - DynamoDBCrudPolicy:
             TableName: TuBoleteraTable
@@ -67,7 +67,7 @@ Resources:
     Properties:
       Handler: handler.knowMore
       Runtime: nodejs12.x
-      CodeUri: ./hello
+      CodeUri: ./tuBoletera
       Policies:
         - DynamoDBCrudPolicy:
             TableName: TuBoleteraTable
@@ -84,7 +84,7 @@ Resources:
     Properties:
       Handler: handler.getTestData
       Runtime: nodejs12.x
-      CodeUri: ./hello
+      CodeUri: ./tuBoletera
       Policies:
         - DynamoDBCrudPolicy:
             TableName: TuBoleteraTable
@@ -101,7 +101,7 @@ Resources:
     Properties:
       Handler: handler.getData
       Runtime: nodejs12.x
-      CodeUri: ./hello
+      CodeUri: ./tuBoletera
       Policies:
         - DynamoDBCrudPolicy:
             TableName: TuBoleteraTable
