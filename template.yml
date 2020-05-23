@@ -1,63 +1,130 @@
-AWSTemplateFormatVersion: '2010-09-09'
-Transform: 'AWS::Serverless-2016-10-31'
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: "AWS::Serverless-2016-10-31"
 
 Resources:
-
-  MyApi:
+  TuBoleteraApi:
     Type: AWS::Serverless::Api
     Properties:
       StageName: dev
-      Cors: 
+      Cors:
         AllowMethods: "'*'"
         AllowHeaders: "'*'"
         AllowOrigin: "'*'"
-    
-  SaveHelloFunction:
-    Type: 'AWS::Serverless::Function'
+
+  TestPageVisitFunction:
+    Type: "AWS::Serverless::Function"
     Properties:
-      Handler: handler.saveHello
+      Handler: handler.testPageVisit
       Runtime: nodejs12.x
       CodeUri: ./hello
       Policies:
         - DynamoDBCrudPolicy:
-            TableName: ExampleTable
+            TableName: TuBoleteraTable
       Events:
-        HelloAPI:
+        TuBoleteraAPI:
           Type: Api
           Properties:
-            RestApiId: !Ref MyApi
-            Path: /hello
+            RestApiId: !Ref TuBoleteraApi
+            Path: /pageVisit/test
             Method: POST
-  
-  GetHelloFunction:
-    Type: 'AWS::Serverless::Function'
+
+  PageVisitFunction:
+    Type: "AWS::Serverless::Function"
     Properties:
-      Handler: handler.getHello
+      Handler: handler.pageVisit
       Runtime: nodejs12.x
       CodeUri: ./hello
       Policies:
         - DynamoDBCrudPolicy:
-            TableName: ExampleTable
+            TableName: TuBoleteraTable
       Events:
-        HelloAPI:
+        TuBoleteraAPI:
           Type: Api
           Properties:
-            RestApiId: !Ref MyApi
-            Path: /hello
+            RestApiId: !Ref TuBoleteraApi
+            Path: /pageVisit
+            Method: POST
+
+  TestKnowMoreFunction:
+    Type: "AWS::Serverless::Function"
+    Properties:
+      Handler: handler.testKnowMore
+      Runtime: nodejs12.x
+      CodeUri: ./hello
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: TuBoleteraTable
+      Events:
+        TuBoleteraAPI:
+          Type: Api
+          Properties:
+            RestApiId: !Ref TuBoleteraApi
+            Path: /knowMore/test
+            Method: POST
+
+  KnowMoreFunction:
+    Type: "AWS::Serverless::Function"
+    Properties:
+      Handler: handler.knowMore
+      Runtime: nodejs12.x
+      CodeUri: ./hello
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: TuBoleteraTable
+      Events:
+        TuBoleteraAPI:
+          Type: Api
+          Properties:
+            RestApiId: !Ref TuBoleteraApi
+            Path: /knowMore
+            Method: POST
+
+  GetTestDataFunction:
+    Type: "AWS::Serverless::Function"
+    Properties:
+      Handler: handler.getTestData
+      Runtime: nodejs12.x
+      CodeUri: ./hello
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: TuBoleteraTable
+      Events:
+        TuBoleteraAPI:
+          Type: Api
+          Properties:
+            RestApiId: !Ref TuBoleteraApi
+            Path: /data/test
             Method: GET
 
-  ExampleTable:
+  GetDataFunction:
+    Type: "AWS::Serverless::Function"
+    Properties:
+      Handler: handler.getData
+      Runtime: nodejs12.x
+      CodeUri: ./hello
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: TuBoleteraTable
+      Events:
+        TuBoleteraAPI:
+          Type: Api
+          Properties:
+            RestApiId: !Ref TuBoleteraApi
+            Path: /data
+            Method: GET
+
+  TuBoleteraTable:
     Type: "AWS::DynamoDB::Table"
     Properties:
       AttributeDefinitions:
-      - AttributeName: "name"
-        AttributeType: "S"
+        - AttributeName: "name"
+          AttributeType: "N"
       KeySchema:
-      - AttributeName: "name"
-        KeyType: "HASH"
-      BillingMode: 'PAY_PER_REQUEST'
-      TableName: 'ExampleTable'
-  
+        - AttributeName: "name"
+          KeyType: "HASH"
+      BillingMode: "PAY_PER_REQUEST"
+      TableName: "TuBoleteraTable"
+
 Outputs:
   Region:
     Description: "Region"
@@ -65,8 +132,8 @@ Outputs:
 
   ApiId:
     Description: "API ID"
-    Value: !Ref MyApi
+    Value: !Ref TuBoleteraApi
 
   ApiUrl:
     Description: "API endpoint URL for Prod environment"
-    Value: !Sub 'https://${MyApi}.execute-api.${AWS::Region}.amazonaws.com/dev/'
+    Value: !Sub "https://${TuBoleteraApi}.execute-api.${AWS::Region}.amazonaws.com/dev/"
